@@ -119,20 +119,20 @@
     .footer-sub { font-size: 0.8rem; color: rgba(250,249,247,0.45); }
     .footer-meta { font-size: 0.75rem; color: rgba(250,249,247,0.3); letter-spacing: 0.04em; }
 
-    @media (max-width: 800px) {
+    @media (max-width: 900px) {
       nav { padding: 1.2rem 1.5rem; }
       .nav-links { display: none; }
       #hero { padding: 7rem 1.5rem 3rem; }
       .container { padding: 0 1.5rem; }
       .section-pad { padding: 4rem 0; }
       .que-es-grid, .canal-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .partes-grid { grid-template-columns: 1fr 1fr; }
+      .partes-grid { grid-template-columns: 1fr 1fr !important; }
       .mp-visual { height: 260px; }
       footer { flex-direction: column; gap: 1rem; text-align: center; padding: 3rem 1.5rem; }
       .qr-card { max-width: 100%; }
     }
-    @media (max-width: 500px) {
-      .partes-grid { grid-template-columns: 1fr; }
+    @media (max-width: 600px) {
+      .partes-grid { grid-template-columns: 1fr !important; }
     }
   
     /* MOBILE NAV */
@@ -245,7 +245,7 @@
       <p class="partes-intro reveal reveal-delay-2">
         El manual se distribuye semanalmente por canal de WhatsApp. Sin presion, sin mensajes diarios, sin obligaciones. Cada parte llega cuando tiene que llegar.
       </p>
-      <div class="partes-grid" style="grid-template-columns:repeat(4,1fr);">
+      <div class="partes-grid">
         <div class="parte-item reveal" style="border-top:1px solid rgba(255,255,255,0.12);border-left:none;border-right:none;border-bottom:none;">
           <div class="parte-num">01</div>
           <h3 class="parte-title">Observar<br>sin juzgar</h3>

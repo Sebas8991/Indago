@@ -158,6 +158,32 @@
       .dash-stats { grid-template-columns: repeat(3, 1fr); }
       footer { padding: 3rem 1.5rem; }
     }
+  
+    /* MOBILE NAV */
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; z-index: 200; }
+    .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--ink); transition: all 0.3s ease; border-radius: 2px; }
+    .nav-hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(4.5px, -4.5px); }
+    .nav-mobile { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(247,244,239,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem; }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile a { font-size: 1.2rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; transition: color 0.3s; }
+    .nav-mobile a:hover, .nav-mobile a.active { color: var(--teal); }
+    .nav-mobile .nav-mobile-cta { font-size: 0.9rem; color: var(--warm-white); background: var(--ink); padding: 0.8rem 2rem; border-radius: 100px; text-decoration: none; margin-top: 1rem; transition: background 0.3s; }
+    .nav-mobile .nav-mobile-cta:hover { background: var(--teal); color: var(--warm-white); }
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links, .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+    }
+
+  
+    @media (max-width: 900px) {
+      .section-pad { padding: 3.5rem 0; }
+      .container { padding: 0 1.5rem; }
+      #hero { padding: 6rem 1.5rem 3rem !important; }
+    }
+
   </style>
 </head>
 <body>
@@ -174,7 +200,18 @@
       <li><a href="/modo-presente.html" class="active">Modo Presente</a></li>
     </ul>
     <a href="https://wa.me/525586147498" target="_blank" class="nav-cta">Agendar conversación</a>
+  
+    <button class="nav-hamburger" id="hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
   </nav>
+
+  <div class="nav-mobile" id="mobile-nav">
+    <a href="/index.html#indago">El espacio</a>
+    <a href="/index.html#sebastian">Sebastián</a>
+    <a href="/index.html#como-trabajo">Proceso</a>
+    <a href="/index.html#contacto">Contacto</a>
+    <a href="/modo-presente.html">Modo Presente</a>
+    <a href="https://wa.me/525586147498" target="_blank" class="nav-mobile-cta">Agendar conversación</a>
+  </div>
 
   <!-- HERO -->
   <div id="hero">
@@ -533,6 +570,23 @@
       await loadEntries();
       setSemana(1);
     })();
+  
+    /* MOBILE NAV */
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobile-nav');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileNav.classList.toggle('open');
+      document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+    });
+    mobileNav.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileNav.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
   </script>
 </body>
 </html>

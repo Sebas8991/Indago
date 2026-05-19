@@ -729,25 +729,11 @@
       footer { flex-direction: column; gap: 1rem; text-align: center; padding: 3rem 1.5rem; }
       .indago-visual { height: 280px; }
     }
-  
-    /* MOBILE NAV */
-    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; z-index: 200; }
-    .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--ink); transition: all 0.3s ease; border-radius: 2px; }
-    .nav-hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
-    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
-    .nav-hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(4.5px, -4.5px); }
-    .nav-mobile { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(247,244,239,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); z-index: 150; flex-direction: column; align-items: center; justify-content: center; gap: 2.5rem; }
-    .nav-mobile.open { display: flex; }
-    .nav-mobile a { font-size: 1.2rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); text-decoration: none; transition: color 0.3s; }
-    .nav-mobile a:hover, .nav-mobile a.active { color: var(--teal); }
-    .nav-mobile .nav-mobile-cta { font-size: 0.9rem; color: var(--warm-white); background: var(--ink); padding: 0.8rem 2rem; border-radius: 100px; text-decoration: none; margin-top: 1rem; transition: background 0.3s; }
-    .nav-mobile .nav-mobile-cta:hover { background: var(--teal); color: var(--warm-white); }
-    @media (max-width: 900px) {
-      nav { padding: 1.2rem 1.5rem; }
-      .nav-links, .nav-cta { display: none; }
-      .nav-hamburger { display: flex; }
+    .contacto-btn { display:flex; align-items:center; gap:1rem; padding:1.4rem 2rem; border:1px solid var(--fog); border-radius:100px; text-decoration:none; transition:all 0.3s; background:var(--cream); }
+    .contacto-btns { display:flex; flex-direction:column; gap:1.2rem; }
+    @media (max-width: 600px) {
+      .contacto-inner { grid-template-columns: 1fr !important; gap: 2rem !important; }
     }
-
   </style>
 </head>
 <body>
@@ -766,18 +752,7 @@
       <li><a href="/modo-presente.html">Modo Presente</a></li>
     </ul>
     <a href="https://wa.me/525586147498" target="_blank" class="nav-cta" style="background:var(--ink);color:var(--warm-white);border-color:var(--ink);">Agendar conversación</a>
-  
-    <button class="nav-hamburger" id="hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
   </nav>
-
-  <div class="nav-mobile" id="mobile-nav">
-    <a href="#indago">El espacio</a>
-    <a href="#sebastian">Sebastián</a>
-    <a href="#como-trabajo">Proceso</a>
-    <a href="#contacto">Contacto</a>
-    <a href="/modo-presente.html">Modo Presente</a>
-    <a href="https://wa.me/525586147498" target="_blank" class="nav-mobile-cta">Agendar conversación</a>
-  </div>
 
   <!-- ── HERO ── -->
   <section id="inicio">
@@ -873,7 +848,10 @@
             style="margin-top:1.2rem;width:100%;display:flex;align-items:center;justify-content:space-between;font-family:var(--sans);font-size:0.82rem;font-weight:400;letter-spacing:0.06em;color:var(--teal);background:transparent;border:1px solid var(--teal-light);padding:0.8rem 1.4rem;border-radius:100px;cursor:pointer;transition:all 0.3s;"
             onmouseover="this.style.background='var(--teal-pale)'" 
             onmouseout="this.style.background='transparent'">
-            Formación y experiencia <span style="font-size:0.9rem;">↗</span>
+            Formación y experiencia
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+              <path d="M2 12L12 2M12 2H5M12 2V9" stroke="#9bbebb" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </button>
         </div>
       </div>
@@ -982,7 +960,7 @@
   <!-- ── CONTACTO ── -->
   <section id="contacto" class="section-pad" style="background:var(--warm-white);">
     <div class="container">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;">
+      <div class="contacto-inner" style="display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;">
         <div>
           <p class="section-label reveal">Contacto</p>
           <h2 class="section-title reveal reveal-delay-1">Escríbeme.<br><em>Sin formalidades.</em></h2>
@@ -991,15 +969,15 @@
             Si algo de lo que leíste resuena, puedes escribirme directamente. La primera sesión es un espacio para conocernos y ver si tiene sentido trabajar juntos. Sin compromiso previo.
           </p>
         </div>
-        <div class="reveal reveal-delay-2" style="display:flex;flex-direction:column;gap:1.2rem;">
-          <a href="https://wa.me/525586147498" target="_blank" style="display:flex;align-items:center;gap:1rem;padding:1.4rem 2rem;border:1px solid var(--fog);border-radius:100px;text-decoration:none;transition:all 0.3s;background:var(--cream);" onmouseover="this.style.borderColor='var(--teal)';this.style.background='var(--teal-pale)'" onmouseout="this.style.borderColor='var(--fog)';this.style.background='var(--cream)'">
+        <div class="contacto-btns reveal reveal-delay-2">
+          <a href="https://wa.me/525586147498" target="_blank" class="contacto-btn" onmouseover="this.style.borderColor='var(--teal)';this.style.background='var(--teal-pale)'" onmouseout="this.style.borderColor='var(--fog)';this.style.background='var(--cream)'">
             <span style="font-size:1.1rem;">💬</span>
             <div>
               <p style="font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.15rem;">WhatsApp</p>
               <p style="font-size:0.95rem;color:var(--ink);font-weight:400;">+52 55 8614 7498</p>
             </div>
           </a>
-          <a href="mailto:sebas.bustos@icloud.com" style="display:flex;align-items:center;gap:1rem;padding:1.4rem 2rem;border:1px solid var(--fog);border-radius:100px;text-decoration:none;transition:all 0.3s;background:var(--cream);" onmouseover="this.style.borderColor='var(--teal)';this.style.background='var(--teal-pale)'" onmouseout="this.style.borderColor='var(--fog)';this.style.background='var(--cream)'">
+          <a href="mailto:sebas.bustos@icloud.com" class="contacto-btn" onmouseover="this.style.borderColor='var(--teal)';this.style.background='var(--teal-pale)'" onmouseout="this.style.borderColor='var(--fog)';this.style.background='var(--cream)'">
             <span style="font-size:1.1rem;">✉️</span>
             <div>
               <p style="font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:0.15rem;">Correo</p>
@@ -1129,23 +1107,6 @@
         }
       });
     }
-  
-    /* MOBILE NAV */
-    const hamburger = document.getElementById('hamburger');
-    const mobileNav = document.getElementById('mobile-nav');
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('open');
-      mobileNav.classList.toggle('open');
-      document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
-    });
-    mobileNav.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        hamburger.classList.remove('open');
-        mobileNav.classList.remove('open');
-        document.body.style.overflow = '';
-      });
-    });
-
   </script>
 
   <!-- ── CV MODAL ── -->

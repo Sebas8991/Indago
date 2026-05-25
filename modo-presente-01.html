@@ -259,26 +259,63 @@
       position: relative;
     }
 
-    .pdf-frame-wrapper iframe {
+    #pdf-container {
       width: 100%;
-      height: 80vh;
-      min-height: 600px;
-      border: none;
-      display: block;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 2rem 1rem;
+      background: var(--fog);
+      min-height: 400px;
     }
 
-    .pdf-fallback {
-      display: none;
-      padding: 5rem 2rem;
-      text-align: center;
-      background: var(--cream);
+    #pdf-container canvas {
+      max-width: 100%;
+      border-radius: 4px;
+      box-shadow: 0 2px 12px rgba(26,26,24,0.08);
     }
 
-    .pdf-fallback p {
-      font-size: 0.95rem;
+    .pdf-controls {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 1rem 1.5rem;
+      background: var(--warm-white);
+      border-top: 1px solid var(--fog);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .pdf-btn {
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--ink-soft);
+      background: transparent;
+      border: 1px solid var(--fog);
+      padding: 0.5rem 1.2rem;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .pdf-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .pdf-btn:disabled { opacity: 0.3; cursor: default; }
+
+    .pdf-page-info {
+      font-size: 0.78rem;
       color: var(--ink-muted);
-      margin-bottom: 1.5rem;
-      line-height: 1.8;
+      letter-spacing: 0.04em;
+    }
+
+    .pdf-loading {
+      padding: 4rem 2rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.06em;
     }
 
     /* FOOTER */
@@ -372,11 +409,14 @@
         <span class="viewer-note">Si no carga, descárgalo arriba</span>
       </div>
       <div class="pdf-frame-wrapper reveal" style="transition-delay:0.1s">
-        <iframe
-          src="https://raw.githubusercontent.com/Sebas8991/Indago/f2a336d94c679e14f72f0cad3957cafab6fa7d88/%F0%9F%8C%BF%20Modo%20Presente%20%C2%B7%2001%20%E2%80%94%20Observar%20sin%20juzgar.pdf"
-          title="Modo Presente · 01 — Observar sin juzgar"
-          loading="lazy"
-        ></iframe>
+        <div id="pdf-container">
+          <div class="pdf-loading" id="pdf-loading">Cargando vista previa…</div>
+        </div>
+        <div class="pdf-controls">
+          <button class="pdf-btn" id="btn-prev" disabled>← Anterior</button>
+          <span class="pdf-page-info" id="page-info">—</span>
+          <button class="pdf-btn" id="btn-next" disabled>Siguiente →</button>
+        </div>
       </div>
     </div>
   </section>
@@ -386,6 +426,7 @@
     <p class="footer-text">Sebastián Bustos · 2026</p>
   </footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
@@ -397,6 +438,49 @@
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
     }, { threshold: 0.1 });
     reveals.forEach(el => observer.observe(el));
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    const PDF_URL = 'https://raw.githubusercontent.com/Sebas8991/Indago/f2a336d94c679e14f72f0cad3957cafab6fa7d88/%F0%9F%8C%BF%20Modo%20Presente%20%C2%B7%2001%20%E2%80%94%20Observar%20sin%20juzgar.pdf';
+
+    let pdfDoc = null;
+    let currentPage = 1;
+    const container = document.getElementById('pdf-container');
+    const loading = document.getElementById('pdf-loading');
+    const pageInfo = document.getElementById('page-info');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+
+    function renderPage(num) {
+      pdfDoc.getPage(num).then(page => {
+        const viewport = page.getViewport({ scale: window.devicePixelRatio >= 2 ? 1.8 : 1.4 });
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        canvas.style.width = Math.min(viewport.width / (window.devicePixelRatio >= 2 ? 2 : 1), container.clientWidth - 32) + 'px';
+
+        container.innerHTML = '';
+        container.appendChild(canvas);
+
+        page.render({ canvasContext: ctx, viewport }).promise.then(() => {
+          pageInfo.textContent = `${num} / ${pdfDoc.numPages}`;
+          btnPrev.disabled = num <= 1;
+          btnNext.disabled = num >= pdfDoc.numPages;
+        });
+      });
+    }
+
+    pdfjsLib.getDocument(PDF_URL).promise.then(pdf => {
+      pdfDoc = pdf;
+      loading.remove();
+      renderPage(1);
+    }).catch(() => {
+      loading.textContent = 'No se pudo cargar la vista previa. Descárgalo arriba.';
+    });
+
+    btnPrev.addEventListener('click', () => { if (currentPage > 1) renderPage(--currentPage); });
+    btnNext.addEventListener('click', () => { if (currentPage < pdfDoc.numPages) renderPage(++currentPage); });
   </script>
 
 </body>

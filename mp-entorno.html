@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modo Presente · 03 — Rediseñar el entorno digital · Indago</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f7f4ef;
+      --warm-white: #faf9f7;
+      --ink: #1a1a18;
+      --ink-soft: #3a3a36;
+      --ink-muted: #7a7a74;
+      --teal: #6b9b99;
+      --teal-light: #9bbebb;
+      --teal-pale: #ddeae9;
+      --sage: #8fa89a;
+      --sand: #c9bfab;
+      --fog: #e8e4de;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--warm-white);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--teal-light); border-radius: 2px; }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 4rem;
+      transition: background 0.6s ease, backdrop-filter 0.6s ease;
+    }
+
+    nav.scrolled {
+      background: rgba(247, 244, 239, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--fog);
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.35rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-back {
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--ink-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.3s;
+    }
+
+    .nav-back:hover { color: var(--teal); }
+
+    .nav-back svg {
+      width: 14px; height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 9rem 0 4rem;
+      background: var(--cream);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -120px; right: -80px;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      border: 1px solid var(--teal-light);
+      opacity: 0.2;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; left: -40px;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      border: 1px solid var(--sand);
+      opacity: 0.3;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-label {
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-num {
+      font-family: var(--serif);
+      font-size: clamp(5rem, 12vw, 9rem);
+      font-weight: 300;
+      color: var(--teal-pale);
+      line-height: 1;
+      position: absolute;
+      top: 5rem; right: 4rem;
+      user-select: none;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      font-weight: 300;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+      max-width: 600px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--teal);
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--ink-muted);
+      max-width: 480px;
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .divider {
+      width: 36px;
+      height: 1px;
+      background: var(--teal);
+      margin-bottom: 2rem;
+      opacity: 0.6;
+    }
+
+    /* ACTIONS */
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-family: var(--sans);
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--warm-white);
+      background: var(--ink);
+      padding: 0.9rem 2rem;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: all 0.35s ease;
+    }
+
+    .btn-download:hover {
+      background: var(--teal);
+      transform: translateY(-1px);
+    }
+
+    .btn-download svg {
+      width: 15px; height: 15px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.8;
+    }
+
+    .hint {
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* VIEWER SECTION */
+    .viewer-section {
+      background: var(--warm-white);
+      padding: 4rem 0 6rem;
+    }
+
+    .viewer-intro {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .viewer-label {
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+
+    .viewer-note {
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      font-style: italic;
+    }
+
+    .pdf-frame-wrapper {
+      width: 100%;
+      background: var(--fog);
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #pdf-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 2rem 1rem;
+      background: var(--fog);
+      min-height: 400px;
+    }
+
+    #pdf-container canvas {
+      max-width: 100%;
+      border-radius: 4px;
+      box-shadow: 0 2px 12px rgba(26,26,24,0.08);
+    }
+
+    .pdf-controls {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 1rem 1.5rem;
+      background: var(--warm-white);
+      border-top: 1px solid var(--fog);
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .pdf-btn {
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: var(--ink-soft);
+      background: transparent;
+      border: 1px solid var(--fog);
+      padding: 0.5rem 1.2rem;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .pdf-btn:hover { border-color: var(--teal); color: var(--teal); }
+    .pdf-btn:disabled { opacity: 0.3; cursor: default; }
+
+    .pdf-page-info {
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .pdf-loading {
+      padding: 4rem 2rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--ink);
+      padding: 3rem 0;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      color: var(--warm-white);
+      opacity: 0.7;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-text {
+      font-size: 0.75rem;
+      color: var(--teal-light);
+      opacity: 0.5;
+      letter-spacing: 0.06em;
+    }
+
+    /* REVEAL ANIMATION */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .container { padding: 0 1.5rem; }
+      .hero { padding: 7rem 0 3rem; }
+      .hero-num { font-size: 5rem; top: 4rem; right: 1.5rem; }
+      .pdf-frame-wrapper iframe { height: 60vh; min-height: 400px; }
+      .actions { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <a href="https://indago.life" class="nav-logo">indago</a>
+    <a href="https://indago.life/modo-presente.html" class="nav-back">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Modo Presente
+    </a>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <p class="hero-label reveal">Modo Presente · Parte III</p>
+      <div class="hero-num" aria-hidden="true">03</div>
+      <h1 class="hero-title reveal" style="transition-delay:0.1s">
+        Rediseñar el<br><em>entorno digital.</em>
+      </h1>
+      <div class="divider reveal" style="transition-delay:0.2s"></div>
+      <p class="hero-desc reveal" style="transition-delay:0.25s">
+        No se trata de apagarlo todo. Es mirar el espacio digital que habitas y preguntarte si refleja cómo quieres vivir el tiempo.
+      </p>
+      <div class="actions reveal" style="transition-delay:0.35s">
+        <a
+          href="https://raw.githubusercontent.com/Sebas8991/Indago/f9688cb0e36f934a0ca26db1097bc754ede93afd/%F0%9F%8C%BF%20Modo%20Presente%20%C2%B7%2003%20%E2%80%94%20Redisen%CC%83ar%20el%20entorno%20digital.pdf"
+          download
+          class="btn-download"
+        >
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Descargar PDF
+        </a>
+        <span class="hint">Mejor en papel o pantalla grande</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="viewer-section">
+    <div class="container">
+      <div class="viewer-intro reveal">
+        <span class="viewer-label">Vista previa</span>
+        <span class="viewer-note">Si no carga, descárgalo arriba</span>
+      </div>
+      <div class="pdf-frame-wrapper reveal" style="transition-delay:0.1s">
+        <div id="pdf-container">
+          <div class="pdf-loading" id="pdf-loading">Cargando vista previa…</div>
+        </div>
+        <div class="pdf-controls">
+          <button class="pdf-btn" id="btn-prev" disabled>← Anterior</button>
+          <span class="pdf-page-info" id="page-info">—</span>
+          <button class="pdf-btn" id="btn-next" disabled>Siguiente →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <a href="https://indago.life" class="footer-logo">indago</a>
+    <p class="footer-text">Sebastián Bustos · 2026</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    const PDF_URL = 'https://raw.githubusercontent.com/Sebas8991/Indago/f9688cb0e36f934a0ca26db1097bc754ede93afd/%F0%9F%8C%BF%20Modo%20Presente%20%C2%B7%2003%20%E2%80%94%20Redisen%CC%83ar%20el%20entorno%20digital.pdf';
+
+    let pdfDoc = null;
+    let currentPage = 1;
+    const container = document.getElementById('pdf-container');
+    const loading = document.getElementById('pdf-loading');
+    const pageInfo = document.getElementById('page-info');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+
+    function renderPage(num) {
+      pdfDoc.getPage(num).then(page => {
+        const viewport = page.getViewport({ scale: window.devicePixelRatio >= 2 ? 1.8 : 1.4 });
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        canvas.style.width = Math.min(viewport.width / (window.devicePixelRatio >= 2 ? 2 : 1), container.clientWidth - 32) + 'px';
+
+        container.innerHTML = '';
+        container.appendChild(canvas);
+
+        page.render({ canvasContext: ctx, viewport }).promise.then(() => {
+          pageInfo.textContent = `${num} / ${pdfDoc.numPages}`;
+          btnPrev.disabled = num <= 1;
+          btnNext.disabled = num >= pdfDoc.numPages;
+        });
+      });
+    }
+
+    pdfjsLib.getDocument(PDF_URL).promise.then(pdf => {
+      pdfDoc = pdf;
+      loading.remove();
+      renderPage(1);
+    }).catch(() => {
+      loading.textContent = 'No se pudo cargar la vista previa. Descárgalo arriba.';
+    });
+
+    btnPrev.addEventListener('click', () => { if (currentPage > 1) renderPage(--currentPage); });
+    btnNext.addEventListener('click', () => { if (currentPage < pdfDoc.numPages) renderPage(++currentPage); });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /firma-indago.html
+
+Sitemap: https://indago.life/sitemap.xml

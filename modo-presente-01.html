@@ -457,7 +457,7 @@
     <p class="footer-sub">Atención online y presencial</p>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="/assets/pdf.min.js"></script>
   <script>
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
@@ -470,7 +470,7 @@
     }, { threshold: 0.1 });
     reveals.forEach(el => observer.observe(el));
 
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/pdf.worker.min.js';
 
     const PDF_URL = 'https://raw.githubusercontent.com/Sebas8991/Indago/f2a336d94c679e14f72f0cad3957cafab6fa7d88/%F0%9F%8C%BF%20Modo%20Presente%20%C2%B7%2001%20%E2%80%94%20Observar%20sin%20juzgar.pdf';
 
